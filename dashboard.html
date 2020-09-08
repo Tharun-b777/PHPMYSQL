@@ -1,0 +1,37 @@
+<html>
+<?php
+session_start();
+if(isset($_SESSION["name"]))
+{
+	$name=$_SESSION["name"];
+	$msg=$_POST["message"];
+$servername="localhost";
+$username="root";
+$password="root";
+$db="message";
+$conn=mysqli_connect($servername, $username,$password,$db);
+if (!$conn)
+{die("Connectionfailed".$conn->connect_error);
+}
+$id="select id from user where username='$name'";
+$d=mysqli_query($conn,$id);
+$i=mysqli_fetch_assoc($d);
+$ik=$i["id"];
+$s="insert into updates (message,receiver_id) values ('$msg','$ik')";
+mysqli_query($conn,$s);
+$sql="select * from updates";
+$result=mysqli_query($conn,$sql);
+while ($message=mysqli_fetch_assoc($result))
+{
+	echo $message['message']."<br>";
+}}
+else{
+	header("Location:http://localhost/login.html");
+}
+?>
+<form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
+Enter text:<input type="text" name="message">
+<button type="submit">SUBMIT</button>
+<br><a href="login.html">Logout</a>
+</form>
+</html>

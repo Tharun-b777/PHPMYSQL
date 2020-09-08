@@ -1,0 +1,50 @@
+<html>
+<?php
+$servername="localhost";
+$username="root";
+$password="root";
+$db="message";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$conn=mysqli_connect($servername, $username,$password,$db);
+if (!$conn)
+{die("Connectionfailed".$conn->connect_error);
+}
+  $name = trim($_POST["name"]);
+  $password = $_POST["password"];
+  $sql="select * from user where username= '$name' and password='$password'  ";
+  $result=mysqli_query($conn,$sql);
+  if (mysqli_num_rows($result) > 0)
+  {
+  if (isset($_POST["checkbox"]))
+  {
+  setcookie("user",$name,time()+3600);
+  setcookie("pass",$password,time()+3600);
+  } 
+  else
+  {unset($_COOKIE["name"]);
+  unset($_COOKIE["pass"]);
+  setcookie("user","",time()-3600);
+  setcookie("pass","",time()-3600);
+
+  }
+  session_start();
+  $_SESSION["name"]=$name;
+  header("Location:http://localhost/dashboard.html");
+  }
+  
+  else
+  {echo "Enter valid username/password";
+  }
+  }
+?>
+<form method="post" action="<?php $_SERVER['PHP_SELF'];?>">
+    ENTER THE DETAILS<br>
+    Enter name    <input type="text" name="name" value="<?php if (isset($_COOKIE["user"])){echo $_COOKIE["user"];}?>"required><br>
+    Enter password<input type="password" name="password" value="<?php if(isset($_COOKIE["pass"])){echo $_COOKIE["pass"];}?>"required><br>
+    <input type="checkbox" name="checkbox">remember me<br>
+    <button type="submit">SUBMIT</button>
+</form>
+
+
+click here to <a href=register.html>register</a>
+</html>

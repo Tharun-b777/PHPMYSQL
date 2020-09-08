@@ -1,0 +1,38 @@
+<html>
+<?php
+$servername="localhost";
+$username="root";
+$password="root";
+$db="message";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$conn=mysqli_connect($servername, $username,$password,$db);
+if (!$conn)
+{die("Connectionfailed".$conn->connect_error);
+}
+  $name = trim($_POST["name"]);
+  $password = $_POST["password"];
+  $sql="INSERT INTO user (username,password) values( '$name','$password' ) ";
+  $sq="select * from user where username='$name'";  
+  $result=mysqli_query($conn,$sq);
+  if(mysqli_num_rows($result) > 0)
+  {echo "Username taken";
+  }
+  else if(mysqli_query($conn,$sql))
+  {header("Location://localhost/login.html");
+  }
+  else
+  {echo "Error". mysqli_error($conn);
+  }
+  }
+?>
+
+<form method="post" action="<?php $_SERVER['PHP_SELF'];?>">
+    ENTER THE DETAILS<br>
+    Enter name<input type="text" name="name" required="required" ><br>
+    Enter password<input type="password" name="password" required="required"><br>
+    <button type="submit">SUBMIT</button>
+</form>
+
+
+click here to <a href=register.html>register</a>
+</html>
