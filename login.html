@@ -2,7 +2,7 @@
 <?php
 $servername="localhost";
 $username="root";
-$password="kumaar78";
+$password="root";
 $db="message";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 $conn=mysqli_connect($servername, $username,$password,$db);
@@ -38,7 +38,7 @@ if (!$conn)
   }
 ?>
 <form method="post" action="<?php $_SERVER['PHP_SELF'];?>">
-    ENTER THE DETAILS<br>
+    LOGIN<br>
     Enter name    <input type="text" name="name" value="<?php if (isset($_COOKIE["user"])){echo $_COOKIE["user"];}?>"required><br>
     Enter password<input type="password" name="password" value="<?php if(isset($_COOKIE["pass"])){echo $_COOKIE["pass"];}?>"required><br>
     <input type="checkbox" name="checkbox">remember me<br>

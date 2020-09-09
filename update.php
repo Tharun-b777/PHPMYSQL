@@ -4,7 +4,7 @@ if(isset($_GET['id']))
 {
     $servername="localhost";
     $username="root";
-    $password="kumaar78";
+    $password="root";
     $db="message";
     $id=$_GET['id'];
     $conn=mysqli_connect($servername, $username,$password,$db);
