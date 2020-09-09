@@ -3,11 +3,11 @@
 session_start();
 if(isset($_SESSION["name"]))
 {
-	$name=$_SESSION["name"];
-	$msg=$_POST["message"];
+$name=$_SESSION["name"];
+$msg=$_POST["message"];
 $servername="localhost";
 $username="root";
-$password="root";
+$password="kumaar78";
 $db="message";
 $conn=mysqli_connect($servername, $username,$password,$db);
 if (!$conn)
@@ -23,7 +23,7 @@ $sql="select * from updates";
 $result=mysqli_query($conn,$sql);
 while ($message=mysqli_fetch_assoc($result))
 {
-	echo $message['message']."<br>";
+	echo $message['receiver_id'].":".$message['message']."<br>";
 }}
 else{
 	header("Location:http://localhost/login.html");
@@ -33,5 +33,9 @@ else{
 Enter text:<input type="text" name="message">
 <button type="submit">SUBMIT</button>
 <br><a href="login.html">Logout</a>
+</form>
+<form action="update.php" method="get">
+Enter UserID:<input type="text" name="id">
+<button type="submit">SUBMIT</button>
 </form>
 </html>
