@@ -1,0 +1,54 @@
+<html>
+<form method="post" action="<?php $_SERVER['PHP_SELF'];?>">
+    ENTER THE DETAILS<br>
+    Enter name<input type="text" name="name" required="required" ><br>
+    Enter password<input type="password" name="password" required="required"><br>
+    <button type="submit">SUBMIT</button>
+</form>
+
+
+click here to <a href=login.html>login</a>
+<?php
+$servername="localhost";
+$username="root";
+$password="kumaar78";
+$db="message";
+ if ($_SERVER["REQUEST_METHOD"] == "POST" && preg_match("/^.*(?=.{8,})(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\W]).*$/",$_POST["password"])) {
+$conn=mysqli_connect($servername, $username,$password,$db);
+if (!$conn)
+{die("Connectionfailed".mysqli_connect_error($conn));
+}
+  $namea = $_POST["name"];
+  $password = sha1($_POST["password"]);
+  if ($namea== trim($namea) && !(preg_match('/^.*\S\s.*\S$/',$namea)))
+  {$sql=$conn->prepare("INSERT INTO user (username,password) values( ? ,'$password' ) ");
+  $sql->bind_param('s',$namea);
+  $sq=$conn->prepare("select * from user where username= ? ");
+  $sq->bind_param('s',$namea);
+  $sq->execute();
+  $result=$sq->get_result();
+  if(mysqli_num_rows($result) > 0)
+  {echo "Username taken";
+  }
+  else if($sql->execute())
+  {echo "account created";
+  http_response_code(201);
+  }
+  else
+  {echo "Error". mysqli_error($conn);
+  }}
+  else
+  {http_respopnse_code(400);
+  echo "<br>username should not contain spaces";
+  }
+  }
+   else
+   {echo "password should be atleast 8 with atleast one special character, number, letter";
+   http_respopnse_code(400);}
+?>
+
+
+
+
+
+</html>
