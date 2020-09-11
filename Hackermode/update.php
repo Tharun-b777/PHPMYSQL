@@ -1,8 +1,7 @@
 <?php
 
 if(isset($_GET['id']))
-{
-    $servername="localhost";
+{    $servername="localhost";
     $username="root";
     $password="kumaar78";
     $db="message";
@@ -24,9 +23,19 @@ if(isset($_GET['id']))
     }
     $result=$message->get_result();
     while($data=$result->fetch_assoc())
-    {
-        echo $data['receiver_id'].":".$data['message']."<br>";
+    { $rcv=$data['receiver_id'];
+    	$sq =$conn->prepare("select username from user where id=?");
+    	$sq->bind_param('i',$rcv);
+    	$sq->execute();
+    	$op=$sq->get_result();
+    	$op_2=$op->fetch_assoc();
+         echo $data['receiver_id']."." .$op_2['username']. ":".$data['message']."<br>";
     }
 }
-echo "<a href='dashboard.html'>returnback</a>";
+
+else
+{http_response_code(400);
+echo "id required";
+}
+echo "<a href='http://localhost/Login/login.html'>return to login page</a>";
 ?>

@@ -1,10 +1,19 @@
 <html>
 <?php
+require "./vendor/autoload.php";
+use \Firebase\JWT\JWT;
 session_start();
-if(isset($_SESSION["name"]))
+if(isset($_SESSION["name"]) && isset($_GET["token"]) )
 {
-$name=$_SESSION["name"];
-$msg=$_POST["message"];
+$token=$_GET["token"];
+$_SESSION['token']=$token;
+try{
+$decode=JWT::decode($token,"SECRET_KEY",array('HS256'));
+
+}
+catch (Exception $e){
+header("Location:http://localhost/login.html");
+}
 $servername="localhost";
 $username="root";
 $password="kumaar78";
@@ -13,6 +22,9 @@ $conn=mysqli_connect($servername, $username,$password,$db);
 if (!$conn)
 {die("Connectionfailed".$conn->connect_error);
 }
+if ($_SERVER['REQUEST_METHOD']=='POST')
+{$name=$_SESSION["name"];
+$msg=$_POST['message'];
 $id=$conn->prepare("select id from user where username=?");
 $id->bind_param('s',$name);
 $id->execute();
@@ -25,21 +37,26 @@ if (!empty($msg))
 $s->bind_param('s',$msg);
 $s->execute();
 http_response_code(201);
-}
+}}
 $sql="select * from updates";
 $result=mysqli_query($conn,$sql);
 while ($message=mysqli_fetch_assoc($result))
-{
-	echo $message['receiver_id'].":".$message['message']."<br>";
+{   $rcv=$message['receiver_id'];
+	$sq =$conn->prepare("select username from user where id=?");
+	$sq->bind_param('i',$rcv);
+	$sq->execute();
+	$op=$sq->get_result();
+	$op_2=$op->fetch_assoc();
+	echo $message['receiver_id'].".".$op_2['username'].":".$message['message']."<br>";
 }}
 else{
-	header("Location:http://localhost/login.html");
+	header("Location:http://localhost/Login/login.html");
 }
 ?>
 <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
 Enter text:<input type="text" name="message">
 <button type="submit">SUBMIT</button>
-<br><a href="login.html">Logout</a>
+<br><a href="http://localhost/Login/login.html">Logout</a>
 </form>
 <form action="update.php" method="get">
 Enter UserID:<input type="text" name="id">

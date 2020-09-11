@@ -7,8 +7,10 @@
 </form>
 
 
-click here to <a href=login.html>login</a>
+click here to <a href=http://localhost/Login/login.html>login</a>
 <?php
+if ($_SERVER['REQUEST_METHOD']=="POST")
+{
 $servername="localhost";
 $username="root";
 $password="kumaar78";
@@ -45,6 +47,7 @@ if (!$conn)
    else
    {echo "password should be atleast 8 with atleast one special character, number, letter";
    http_respopnse_code(400);}
+}
 ?>
 
 
