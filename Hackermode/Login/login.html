@@ -1,7 +1,6 @@
 <html>
 <?php
-include_once '../vendor/autoload.php';
-use \Firebase\JWT\JWT;
+
 $servername="localhost";
 $username="root";
 $password="kumaar78";
@@ -32,22 +31,13 @@ if (!$conn)
   }
   session_start();
   $_SESSION["name"]=$name;
-   $secret_key = "SECRET_KEY";
-        $issuer_claim = "APACHE";
-        $audience_claim = "AUDIENCE";
-        $issuedat_claim = time(); // issued at
-        $notbefore_claim = $issuedat_claim; //not before in seconds
-        $expire_claim = $issuedat_claim + 60; // expire time in seconds
-        $token = array(
-            "iss" => $issuer_claim,
-            "aud" => $audience_claim,
-            "iat" => $issuedat_claim,
-            "nbf" => $notbefore_claim,
-            "exp" => $expire_claim,
-            "data" => array(
-                "name" => $name
-        ));
-  $jwt=JWT::encode($token,$secret_key);
+  $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
+  $payload = json_encode(['name' => $name,'exp'=>time()+60]);
+  $base64Header = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
+  $base64Payload = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($payload));
+  $signature = hash_hmac('sha256', $base64Header . "." . $base64Payload, 'SECRET_KEY');
+  $base64Signature = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($signature));
+  $jwt = $base64Header . "." . $base64Payload . "." . $base64Signature;
   header("Location:http://localhost/dashboard.html?token=$jwt");
   }
 

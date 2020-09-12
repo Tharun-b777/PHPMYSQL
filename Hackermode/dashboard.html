@@ -1,18 +1,15 @@
 <html>
 <?php
-require "./vendor/autoload.php";
-use \Firebase\JWT\JWT;
 session_start();
 if(isset($_SESSION["name"]) && isset($_GET["token"]) )
 {
-$token=$_GET["token"];
-$_SESSION['token']=$token;
-try{
-$decode=JWT::decode($token,"SECRET_KEY",array('HS256'));
-
-}
-catch (Exception $e){
-header("Location:http://localhost/login.html");
+$tok=explode(".",$_GET["token"]);
+$sign=hash_hmac('sha256',$tok[0].".".$tok[1],'SECRET_KEY');
+$base64sign=str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($sign));
+$payload=json_decode(base64_decode($tok[1]),true);
+if(!(strcmp($tok[2],$base64sign)==0 && $payload["exp"]>=time()))
+{
+header("Location:http://localhost/Login/login.html");
 }
 $servername="localhost";
 $username="root";
