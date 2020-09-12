@@ -19,19 +19,20 @@ if (!$conn)
   {
   setcookie("user",$name,time()+3600);
   setcookie("pass",$password,time()+3600);
-  } 
+  setcookie("check",$_POST["checkbox"],time()+3600);
+  }
   else
-  {unset($_COOKIE["name"]);
-  unset($_COOKIE["pass"]);
+  {
   setcookie("user","",time()-3600);
   setcookie("pass","",time()-3600);
+  setcookie("check","",time()-3600);
 
   }
   session_start();
   $_SESSION["name"]=$name;
   header("Location:http://localhost/dashboard.html");
   }
-  
+
   else
   {echo "Enter valid username/password";
   }
@@ -41,8 +42,8 @@ if (!$conn)
     LOGIN<br>
     Enter name    <input type="text" name="name" value="<?php if (isset($_COOKIE["user"])){echo $_COOKIE["user"];}?>"required><br>
     Enter password<input type="password" name="password" value="<?php if(isset($_COOKIE["pass"])){echo $_COOKIE["pass"];}?>"required><br>
-    <input type="checkbox" name="checkbox">remember me<br>
-    <button type="submit">SUBMIT</button>
+<input type="checkbox" name="checkbox"<?php if(isset($_COOKIE["check"])){?>checked<?php }?>/>remember me<br>
+<button type="submit">SUBMIT</button>
 </form>
 
 
