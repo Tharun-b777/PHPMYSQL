@@ -1,7 +1,6 @@
 <html>
 <?php
-session_start();
-if(isset($_SESSION["name"]) && isset($_GET["token"]) )
+if(isset($_GET["token"]) )
 {
 $tok=explode(".",$_GET["token"]);
 $sign=hash_hmac('sha256',$tok[0].".".$tok[1],'SECRET_KEY');
@@ -20,7 +19,7 @@ if (!$conn)
 {die("Connectionfailed".$conn->connect_error);
 }
 if ($_SERVER['REQUEST_METHOD']=='POST')
-{$name=$_SESSION["name"];
+{$name=$payload['name'];
 $msg=$_POST['message'];
 $id=$conn->prepare("select id from user where username=?");
 $id->bind_param('s',$name);

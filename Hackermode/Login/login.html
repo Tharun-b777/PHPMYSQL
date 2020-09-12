@@ -1,6 +1,5 @@
 <html>
 <?php
-
 $servername="localhost";
 $username="root";
 $password="kumaar78";
@@ -20,7 +19,7 @@ if (!$conn)
   {http_response_code(200);
   if (isset($_POST["checkbox"]))
   {
-  setcookie("user",$name,time()+3600);
+  setcookie("user",$name,time()+3600,'/','localhost');
   setcookie("pass",$_POST["password"],time()+3600);
   setcookie("check",$_POST["checkbox"],time()+3600);
   }
@@ -29,8 +28,6 @@ if (!$conn)
   setcookie("pass","",time()-3600);
   setcookie("check","",time()-3600);
   }
-  session_start();
-  $_SESSION["name"]=$name;
   $header = json_encode(['typ' => 'JWT', 'alg' => 'HS256']);
   $payload = json_encode(['name' => $name,'exp'=>time()+60]);
   $base64Header = str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($header));
