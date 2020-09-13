@@ -29,7 +29,7 @@ Modified 000-default.conf to display custom error page
 
 # HACKERMODE:
 
-Modified ports.conf file to make server listen and serve contents on port 8600 and 8400
+Modified ports.conf file to make server serve contents on port 8600 and 8400
 
 Modified 000-default.conf to display login on port 8600 and register on port 8400
 
