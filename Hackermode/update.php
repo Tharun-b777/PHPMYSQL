@@ -22,14 +22,15 @@ if(isset($_GET['id']))
     exit();
     }
     $result=$message->get_result();
+     $sq =$conn->prepare("select username from user where id=?");
+        $sq->bind_param('i',$id);
+        $sq->execute();
+        $p=$sq->get_result();
+        $pname=$p->fetch_assoc();
+
     while($data=$result->fetch_assoc())
-    { $rcv=$data['receiver_id'];
-    	$sq =$conn->prepare("select username from user where id=?");
-    	$sq->bind_param('i',$rcv);
-    	$sq->execute();
-    	$op=$sq->get_result();
-    	$op_2=$op->fetch_assoc();
-         echo $data['receiver_id']."." .$op_2['username']. ":".$data['message']."<br>";
+    {
+         echo $data['receiver_id']."." .$pname['username']. ":".$data['message']." @".$data['date_time']."<br>";
     }
 }
 
