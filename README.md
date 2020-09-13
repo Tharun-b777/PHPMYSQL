@@ -9,26 +9,12 @@ DATABASE: message
 TABLE update
 
 
-+-------------+--------------+------+-----+-------------------+-------------------+
-| Field       | Type         | Null | Key | Default           | Extra             |
-+-------------+--------------+------+-----+-------------------+-------------------+
-| id          | int          | NO   | PRI | NULL              | auto_increment    |
-| receiver_id | int          | YES  | MUL | NULL              |                   |
-| message     | varchar(200) | YES  |     | NULL              |                   |
-| date_time   | datetime     | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED |
-+-------------+--------------+------+-----+-------------------+-------------------+
-
+create table updates (id int AUTO_INCREMENT primary key,receiver_id int,message varchar(200),date_time datetime default now(),FOREIGN KEY(receiver_id) REFERENCES user(id))
 
 TABLE user
 
 
-+----------+--------------+------+-----+---------+----------------+
-| Field    | Type         | Null | Key | Default | Extra          |
-+----------+--------------+------+-----+---------+----------------+
-| id       | int          | NO   | PRI | NULL    | auto_increment |
-| username | varchar(150) | NO   |     | NULL    |                |
-| password | varchar(100) | YES  |     | NULL    |                |
-+----------+--------------+------+-----+---------+----------------+
+create table user (id int AUTO_INCREMENT primary key,username varchar(150),password varchar(100))
 
 
 # SERVER
@@ -36,24 +22,6 @@ TABLE user
 Created .htaccess to enable php to be detected in html file
 
 Modified server config(apache2.conf) file to enable .htaccess
-
-Modified part(lines:170-174):-
-
-
-<Directory /var/www/html/>
-
-
-    Options Indexes FollowSymLinks
-
-
-    AllowOverride All
-
-
-    Require all granted
-
-
-</Directory>
-
 
 Modified dir.conf file to serve the default files other than index.html
 
