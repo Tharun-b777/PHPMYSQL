@@ -39,6 +39,8 @@ Log.php to be run with command:-
 
 sudo php log.php
 
+Used prepared statements to prevent sql injection
+
 # JWT:
 
 Tried implement JWT on own without libraries
@@ -46,3 +48,15 @@ Tried implement JWT on own without libraries
 JWT token passed as query parameter to dashboard.html(in hackermode)
 
 In normal mode used sessions to prevent user from directly accessing dashboard
+
+# UPDATES
+
+created update.php to display messages in the format:
+
+USER_ID.USER_NAME:MESSAGE @DATE TIME 
+
+# DASHBOARD
+
+messages displayed in format
+
+USER_ID:MESSAGE
