@@ -12,7 +12,7 @@ if (!$conn)
   $name = trim($_POST["name"]);
   $password = $_POST["password"];
   $sql="INSERT INTO user (username,password) values( '$name','$password' ) ";
-  $sq="select * from user where username='$name'";  
+  $sq="select * from user where username='$name'";
   $result=mysqli_query($conn,$sq);
   if(mysqli_num_rows($result) > 0)
   {echo "Username taken";
@@ -26,13 +26,13 @@ if (!$conn)
   }
 ?>
 
-<form method="post" action="<?php $_SERVER['PHP_SELF'];?>">
-    ENTER THE DETAILS<br>
-    Enter name<input type="text" name="name" required="required" ><br>
+<form method="post" action="<?php $_SERVER['PHP_SELF'];?>">    
+   <h1 style="text-align:center;">ENTER THE DETAILS</h1><br>
+   <body style="text-align:center;"> Enter name<input type="text" name="name" required="required" ><br>
     Enter password<input type="password" name="password" required="required"><br>
-    <button type="submit">SUBMIT</button>
+    <button type="submit">SUBMIT</button> 
 </form>
 
 
-click here to <a href=register.html>register</a>
+click here to <a href=register.html>register</a> </body>
 </html>
