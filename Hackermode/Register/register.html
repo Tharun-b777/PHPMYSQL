@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD']=="POST")
 {
 $servername="localhost";
 $username="root";
-$password="kumaar78";
+$password="root";
 $db="message";
  if ($_SERVER["REQUEST_METHOD"] == "POST" && preg_match("/^.*(?=.{8,})(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[\W]).*$/",$_POST["password"])) {
 $conn=mysqli_connect($servername, $username,$password,$db);
