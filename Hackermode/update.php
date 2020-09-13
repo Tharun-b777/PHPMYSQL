@@ -38,5 +38,4 @@ else
 {http_response_code(400);
 echo "id required";
 }
-echo "<a href='http://localhost/Login/login.html'>return to login page</a>";
 ?>

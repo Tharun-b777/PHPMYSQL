@@ -29,5 +29,4 @@ if(isset($_GET['id']))
 else 
 {echo "id required";
 }
-echo "<a href='dashboard.html'>returnback</a>";
 ?>
